@@ -1,0 +1,47 @@
+<div  class="ads fs-1" style="height: 10vh;width: fit-content;float: right;">
+    {{adsView}}
+</div>
+<div>
+    <label for="cat">select category name :</label> <br><br>
+    <select name="cat" id="cat" [(ngModel)]="selecyedCatID">
+        <option value="0">All</option>
+        <option *ngFor="let cat of catList" [value]="cat.id">{{cat.name}}</option>
+    </select>
+</div>
+<h1>{{selecyedCatID}}</h1><br>
+<div>
+    <label for="username">client name</label>
+    <input type="text" class="form-control" name="username" id="username" #clientName>
+</div>
+
+<app-home [recievedCatID]="selecyedCatID" (totalPriceChanged)="onTotalPriceChanged($event)"></app-home>
+<div class="bg-warning">total price is : {{receivedOrderTotalPrice}}</div><br>
+<div>
+
+    <button class="btn btn-warning" (click)="getNewArrOfProduct()">add to cart</button>
+</div>
+<br>
+<table class="table">
+    <thead>
+        <tr class="bg-dark text-light">
+            <th scope="col">name</th>
+            <th scope="col">price in USD</th>
+            <th scope="col">count</th>
+            <th scope="col">total price</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let prd of newArr">
+            <tr>
+                <td>{{prd.name}}</td>
+                <td>{{prd.price}}</td>
+                <td>{{fatherprdQunatity}}</td>
+                <td>{{prd.price*fatherprdQunatity}}</td>
+            </tr>
+        </ng-container>
+    </tbody>
+</table>
+<div>
+    <h2>total price = {{receivedOrderTotalPrice}}</h2>
+</div>

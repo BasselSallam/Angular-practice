@@ -1,0 +1,29 @@
+<form #thisForm (ngSubmit)="onSubmit
+(formPrdID.value,formPrdName.value,formPrdQuantity.value,formPrdPrice.value,formPrdImg.value,formPrdCatID.value)" novalidate>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Product ID</label>
+        <input type="number" class="form-control" #formPrdID>
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Product name</label>
+        <input type="text" class="form-control" #formPrdName>
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Product Quantity</label>
+        <input type="number" class="form-control" #formPrdQuantity>
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Product Price</label>
+        <input type="number" class="form-control" #formPrdPrice>
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Product ImageURL</label>
+        <input type="text" class="form-control" #formPrdImg>
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Product Catagory ID</label>
+        <input type="number" class="form-control" #formPrdCatID>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

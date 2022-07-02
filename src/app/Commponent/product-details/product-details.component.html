@@ -1,0 +1,10 @@
+<div class="card  my-5" style="width: 18rem;">
+    <img [src]="product?.imgURL" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">product : {{product?.name}}</h5>
+      <p class="card-text">price : {{product?.price}}$</p>
+      <button [disabled]="currentPrdID==prdArrOfID[0]" type="button" class="btn btn-success" (click)="getPrvPrd()">Previous</button>
+      <button  [disabled]="currentPrdID==prdArrOfID[prdArrOfID.length-1]" type="button" class="btn btn-danger" (click)="getNextPrd()">Next</button>
+      <br><br><button type="button" class="btn btn-warning" (click)="back()">Back</button>
+    </div>
+  </div>

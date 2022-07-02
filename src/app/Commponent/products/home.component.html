@@ -1,0 +1,68 @@
+<label for=""></label>
+<input type="text" class="form-control" name="userFeedback" id="userFeedback" [(ngModel)]="userFeedback">
+<h1>{{userFeedback}}</h1>
+<br>
+
+<div>
+    your national id {{'29909011509345'|natID | date:"fullDate"}}
+</div>
+<div>
+    ur card {{'0000000000000000000'|creditCard}}
+</div>
+<div>
+    test current date : {{todayDate | date:"fullDate"}}
+</div>
+<table class="table">
+    <thead>
+        <tr class="bg-dark text-light">
+            <th scope="col">no.</th>
+            <th scope="col">name</th>
+            <th scope="col">image</th>
+            <th scope="col">quantity</th>
+            <th scope="col">price in USD</th>
+            <th scope="col">price in EGP</th>
+            <th scope="col">count</th>
+            <th scope="col">details</th>
+            <th scope="col">buy</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        <ng-container *ngFor="let prd of prdListarr;let i = index,trac">
+            <tr [ngClass]="{'bg-warning':prd.quantity+decrease==0,'text-light':prd.quantity+decrease==0}">
+            <tr [hidden]="prd.quantity+decrease==0"
+                [ngStyle]="{'background-color':(prd.quantity+decrease==1)?'lightyellow':'lightblue','color':(prd.quantity+decrease==0)?'red':'blue'}">
+
+                <td>{{i+1}}</td>
+                <td>{{prd.name | uppercase}}</td>
+                <td><img [src]="prd.imgURL" style="width: 6rem;box-shadow: 3px 5px #888888;border-radius:5px;"
+                        appBorderBox>
+                </td>
+                <td>
+
+                    <ng-container [ngSwitch]="prd.quantity+decrease">
+                        <ng-container *ngSwitchCase="0">out of stock</ng-container>
+                        <ng-container *ngSwitchCase="1">last item</ng-container>
+                        <ng-container *ngSwitchDefault>{{prd.quantity+decrease}}</ng-container>
+
+
+                    </ng-container>
+
+                </td>
+                <td>{{prd.price | currency:'USD':'symbol'}}</td>
+                <td>{{prd.price | egypt:20 | currency:'EGP'}}</td>
+                <td> <input type="number" class="form-control" #itemsCount></td>
+                <!-- <td> <button class="btn btn-info" (click)="openPrdDetails(prd.id)">Details</button></td> -->
+                <td><a class="btn btn-info" [routerLink]="['/products',prd.id]" role="button">Details</a></td>
+                <td> <button class="btn btn-info" hoverColor appBorderBox [hidden]="prd.quantity==0"
+                        (click)="change(prd.quantity,prd.id)" (click)="updateTotalPrice(prd.price,itemsCount.value)">
+                        buy</button>
+                </td>
+
+
+
+            </tr>
+        </ng-container>
+    </tbody>
+</table>
