@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { IProduct } from 'src/app/models/store-info';
 import { ProductService } from 'src/app/Services/product.service';
+import { ApiProductsService } from 'src/app/Services/api-products.service';
+import { Router } from '@angular/router';
+import { FirestoreService } from 'src/app/Services/firestore.service';
 
 @Component({
   selector: 'app-add-product',
@@ -15,8 +18,14 @@ export class AddProductComponent implements OnInit {
     price: 0,
     cateogryID: 0
   }
+  observerObj = {
+    next: (prd:IProduct)=>{alert('product added succesfully')
+    this.RoutingService.navigateByUrl('/home')},
+    error:(err:Error)=>{alert(err);
+    }, 
+  }
 
-  constructor(private prdService:ProductService) { }
+  constructor(private addFirestore:FirestoreService ,private prdService:ProductService,private apiPrdService:ApiProductsService,private RoutingService:Router) { }
 
   ngOnInit(): void {
     
@@ -31,7 +40,8 @@ export class AddProductComponent implements OnInit {
     this.newPrd!.imgURL=img ;
     this.newPrd!.cateogryID=Number(catId) ;
     console.log(this.newPrd);
-    this.prdService.addNewProduct(this.newPrd!)
-    
+    // this.prdService.addNewProduct(this.newPrd!)
+    //use snackbar not alert
+    this.apiPrdService.addNewProduct(this.newPrd).subscribe(this.observerObj)
   }
 }

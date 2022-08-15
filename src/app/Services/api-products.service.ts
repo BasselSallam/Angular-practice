@@ -1,24 +1,29 @@
-import { HttpClient, HttpHeaderResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaderResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, retry, throwError } from 'rxjs';
+import { catchError, Observable, retry, throwError, observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IProduct } from '../models/store-info';
+import { ICategory } from './../models/icategory';
+import { GenericApiHandlerService } from './generic-api-handler.service';
+import { APIResponseVM } from './../models/apiresponse-vm';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiProductsService {
-  httpOption: {};
+
   apiLink: string = 'http://localhost:3000/'
-  constructor(private httpClientService: HttpClient) {
-    this.httpOption = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-       // Authorization: 'my-auth-token'
-      })
-    };
+  constructor(private httpClientService: HttpClient,private genericAPI:GenericApiHandlerService) {
+
+  }
+
+  getCategories(): Observable<ICategory[]> {
+    return this.httpClientService.get<ICategory[]>(`${environment.apiURL}/categories`)
   }
   getAllProducts(): Observable<IProduct[]> {
+// return this.GenericApiHandlerService.getAll('/home').pipe(
+//   map((APIResponseVM: APIResponseVM) => APIResponseVM.data)
+// )
     return this.httpClientService.get<IProduct[]>(`${environment.apiURL}/products`)
   }
 
@@ -27,15 +32,12 @@ export class ApiProductsService {
 
   }
 
-  addNewProduct(prd: IProduct) : Observable<IProduct>{
+  addNewProduct(prd: IProduct): Observable<IProduct> {
     return this.httpClientService.post<IProduct>
-    (`${environment.apiURL}/products`, JSON.stringify(prd),this.httpOption).pipe(
-      retry(3),
-      catchError((err)=>{
-        console.log(err);
-        return throwError(()=> new Error('connection error'));
-      })
-    )
+      (`${environment.apiURL}/products`, JSON.stringify(prd), this.genericAPI.httpOption).pipe(
+        retry(3),
+        catchError(this.genericAPI.handleError)
+      )
   }
 
   updateProduct(prdID: number, prdUpdated: IProduct) {

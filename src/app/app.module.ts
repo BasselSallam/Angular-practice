@@ -18,6 +18,10 @@ import { NotFoundComponent } from './Commponent/not-found/not-found.component';
 import { MainLayoutComponent } from './Commponent/main-layout/main-layout.component';
 import { ProductDetailsComponent } from './Commponent/product-details/product-details.component';
 import { AddProductComponent } from './Commponent/add-product/add-product.component';
+import { UserLoginComponent } from './Commponent/user-login/user-login.component';
+import { AngularFireModule } from '@angular/fire/compat'
+import { environment } from 'src/environments/environment';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 @NgModule({
   declarations: [
@@ -35,13 +39,16 @@ import { AddProductComponent } from './Commponent/add-product/add-product.compon
     NotFoundComponent,
     MainLayoutComponent,
     ProductDetailsComponent,
-    AddProductComponent
+    AddProductComponent,
+    UserLoginComponent
   ],
   imports: [
+  AngularFireModule.initializeApp(environment.firebase,'angularAPP'),
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularFirestoreModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

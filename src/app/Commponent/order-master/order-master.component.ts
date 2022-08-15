@@ -5,6 +5,10 @@ import { Store } from 'src/app/models/store-data';
 import { IProduct } from 'src/app/models/store-info';
 import { PromotionADSService } from 'src/app/Services/promotion-ads.service';
 import { HomeComponent } from '../products/home.component';
+import { ApiProductsService } from './../../Services/api-products.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { FirestoreService } from 'src/app/Services/firestore.service';
 
 @Component({
   selector: 'app-order-master',
@@ -12,23 +16,19 @@ import { HomeComponent } from '../products/home.component';
   styleUrls: ['./order-master.component.scss']
 })
 export class OrderMasterComponent implements OnInit,AfterViewInit,OnDestroy {
-  catList:ICategory[];
+  catList:ICategory[]=[];
   selecyedCatID:number=0;
   receivedOrderTotalPrice:number = 0;
   newArr : any = [];
+  item :any [] = []
   adsView:string='';
   fatherprdQunatity :number = 0;
   adsSub!:Subscription;
 @ViewChild('clientName') ClientName! : ElementRef ;
 @ViewChild(HomeComponent) productRef! : HomeComponent;
 
-  constructor(private proAds:PromotionADSService) {
-    this.catList=[
-      {id:1, name:'samsung'},
-      {id:2, name:'lenovo'},
-      {id:3, name:'lg'},
-      {id:4, name:'Tornado'}
-    ]
+  constructor(private proAds:PromotionADSService,private httpService:ApiProductsService,private firestoreService:FirestoreService) {
+    this.httpService.getCategories().subscribe(prd => {this.catList=prd})
    }
   ngAfterViewInit(): void {
     this.ClientName.nativeElement.value = 'value added from ts'
@@ -52,7 +52,10 @@ export class OrderMasterComponent implements OnInit,AfterViewInit,OnDestroy {
       
     }
     this.adsSub = this.proAds.getSchedualAds(3).subscribe(subObj);
- 
+    this.firestoreService.getItems().subscribe(items =>{this.item = items
+    console.log(items);
+    
+    })
   }
   ngOnDestroy(): void {
     this.adsSub.unsubscribe();

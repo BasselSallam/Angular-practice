@@ -6,6 +6,8 @@ import { NotFoundComponent } from './Commponent/not-found/not-found.component';
 import { OrderMasterComponent } from './Commponent/order-master/order-master.component';
 import { ProductDetailsComponent } from './Commponent/product-details/product-details.component';
 import { HomeComponent } from './Commponent/products/home.component';
+import { UserLoginComponent } from './Commponent/user-login/user-login.component';
+import { AuthGuard } from './Gaurds/auth.guard';
 
 const routes: Routes = [
   {
@@ -14,9 +16,11 @@ const routes: Routes = [
       { path: 'products', component: HomeComponent },
       { path: 'products/:pid', component: ProductDetailsComponent },
       { path: 'home', component: OrderMasterComponent },
-      { path: 'addproduct', component: AddProductComponent }
+      { path: 'addproduct', component: AddProductComponent, canActivate: [AuthGuard] }
     ]
   },
+  { path: 'login', component: UserLoginComponent },
+  { path: 'logout', component: UserLoginComponent },
   { path: '**', component: NotFoundComponent }
 ];
 

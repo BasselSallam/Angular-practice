@@ -34,7 +34,7 @@
             <tr [hidden]="prd.quantity+decrease==0"
                 [ngStyle]="{'background-color':(prd.quantity+decrease==1)?'lightyellow':'lightblue','color':(prd.quantity+decrease==0)?'red':'blue'}">
 
-                <td>{{i+1}}</td>
+                <td>{{i}}</td>
                 <td>{{prd.name | uppercase}}</td>
                 <td><img [src]="prd.imgURL" style="width: 6rem;box-shadow: 3px 5px #888888;border-radius:5px;"
                         appBorderBox>
